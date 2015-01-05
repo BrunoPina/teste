@@ -1,0 +1,179 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html" 
+	xmlns:sp="urn:import:br.com.tagme.gwt.commons.client.components.formitem"
+	xmlns:select="urn:import:org.gwtbootstrap3.extras.select.client.ui" 
+	xmlns:c="urn:import:br.com.tagme.gwt.commons.client.components">
+
+	<b:Row>
+		<b:Modal title="Alterações Cadastrais" hideOtherModals="true" closable="true" fade="true" dataBackdrop="STATIC" dataKeyboard="true" ui:field="modalEdit">
+			<b:ModalBody>
+				<g:FormPanel ui:field="formPanel" addStyleNames="form-horizontal" method="POST">
+					<b:FieldSet ui:field="fsFormPanel">
+						<b:Heading size="H4" text="Endereço" />
+						<b:Divider />
+
+						<sp:FormItem ui:field="formEndereco" label="Logradouro" type="1" leftColumnSize="SM_4" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formEndNumero" label="Nº" type="1" leftColumnSize="SM_4" rightColumnSize="SM_3" />
+						<sp:FormItem ui:field="formComplemento" label="Complemento" type="1" leftColumnSize="SM_4" rightColumnSize="SM_6"/>
+						<sp:FormItem ui:field="formBairro" label="Bairro" type="1" leftColumnSize="SM_4" rightColumnSize="SM_6" />
+						<sp:FormItem ui:field="formCep" label="CEP" type="1" leftColumnSize="SM_4" rightColumnSize="SM_6" />
+						<sp:FormItem ui:field="formCidade" label="Cidade" type="1" leftColumnSize="SM_4" rightColumnSize="SM_6" />
+						<sp:FormItem ui:field="formUF" label="UF" type="1" leftColumnSize="SM_4" rightColumnSize="SM_2" />
+						<b:Lead />
+						<b:Heading size="H4" text="Características" />
+						<b:Divider />
+
+						<b:Row styleName="form-group">
+							<b:Column size="XS_12,SM_4">
+								<b:FormLabel addStyleNames="form-label">Segmento Principal</b:FormLabel>
+							</b:Column>
+							<b:Column size="XS_12, SM_8">
+								<select:Select ui:field="formSegmento" showMenuArrow="true" width="90%" title="Selecione o Segmento Principal">
+									<select:Option ui:field="optSegAtacDist" text="Atacado Distribuidor"/>
+									<select:Option ui:field="optSegInd" text="Indústria"/>
+									<select:Option ui:field="optSegServ" text="Serviços"/>
+									<select:Option ui:field="optSegVar" text="Varejo"/>
+								</select:Select>
+							</b:Column>
+						</b:Row>
+
+						<sp:FormItem ui:field="formRamoAtacDist" addStyleNames="no-margin-bottom" leftLabel="Ramos de Atividade" label="Atacado Distribuidor" type="3" leftColumnSize="SM_4" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formRamoInd" addStyleNames="no-margin-bottom" label="Indústria" type="3" leftColumnSize="SM_4" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formRamoServ"  addStyleNames="no-margin-bottom" label="Serviços" type="3" leftColumnSize="SM_4" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formRamoVar" label="Varejo" type="3" leftColumnSize="SM_4" rightColumnSize="SM_8" />
+
+						<sp:FormItem ui:field="formRegimeTrib" leftLabel="Regime Tributário" label="Simples Nacional?" type="3" leftColumnSize="SM_4" rightColumnSize="SM_8" />
+						
+					</b:FieldSet>
+				</g:FormPanel>
+			</b:ModalBody>
+			<b:ModalFooter>
+				<b:Button type="SUCCESS" ui:field="botaoSolicAlteracao">Salvar</b:Button>
+				<b:Button type="DANGER" ui:field="botaoCancelSolic">Cancelar</b:Button>
+			</b:ModalFooter>
+		</b:Modal>
+
+		<c:ButtonContainer>
+			<b:Button ui:field="botaoEditar" icon="EDIT" type="WARNING">Editar Cadastro</b:Button>		
+		</c:ButtonContainer>
+		<b:Column size="XS_12">
+			<b:PageHeader subText="Parceiro" addStyleNames="small-page-header" />
+		</b:Column>
+		<b:Column size="XS_12 SM_6">
+			<b:Description>
+				<b:DescriptionData text="Nome" />
+				<b:DescriptionTitle ui:field="nome" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="Data de Fundação" />
+				<b:DescriptionTitle ui:field="dtFund" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="CNPJ" />
+				<b:DescriptionTitle ui:field="cnpj" text="-" />
+			</b:Description>
+		</b:Column>
+
+		<b:Column size="XS_12">
+			<b:PageHeader subText="Endereço" addStyleNames="small-page-header" />
+		</b:Column>
+		<b:Column size="XS_12 SM_5">
+			<b:Description>
+				<b:DescriptionData text="Logradouro" />
+				<b:DescriptionTitle ui:field="endereco" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_2">
+			<b:Description>
+				<b:DescriptionData text="Nº" />
+				<b:DescriptionTitle ui:field="endNum" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_5">
+			<b:Description>
+				<b:DescriptionData text="Complemento" />
+				<b:DescriptionTitle ui:field="complemento" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="Bairro" />
+				<b:DescriptionTitle ui:field="bairro" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="Cidade" />
+				<b:DescriptionTitle ui:field="cidade" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="UF" />
+				<b:DescriptionTitle ui:field="uf" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="CEP" />
+				<b:DescriptionTitle ui:field="cep" text="-" />
+			</b:Description>
+		</b:Column>
+
+		<b:Column size="XS_12">
+			<b:PageHeader subText="Características" addStyleNames="small-page-header" />
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="Segmento Principal" />
+				<b:DescriptionTitle ui:field="segPrinc" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_6">
+			<b:Description>
+				<b:DescriptionData text="Ramos de Atividade" />
+				<b:DescriptionTitle ui:field="segSec" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_3">
+			<b:Description>
+				<b:DescriptionData text="Simples Nacional?" />
+				<b:DescriptionTitle ui:field="regTrib" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_6">
+			<b:Description>
+				<b:DescriptionData text="Ramo de Atividade" />
+				<b:DescriptionTitle ui:field="ativPrincipal"
+					text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_6">
+			<b:Description>
+				<b:DescriptionData text="Nível de Processos" />
+				<b:DescriptionTitle ui:field="nvlProc" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_5">
+			<b:Description>
+				<b:DescriptionData text="Faturamento" />
+				<b:DescriptionTitle ui:field="faturamento" text="-" />
+			</b:Description>
+		</b:Column>
+		<b:Column size="XS_12 SM_7">
+			<b:Description>
+				<b:DescriptionData text="Funcionários" />
+				<b:DescriptionTitle ui:field="funcionarios" text="-" />
+			</b:Description>
+		</b:Column>
+
+	</b:Row>
+
+</ui:UiBinder> 

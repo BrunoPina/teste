@@ -1,0 +1,93 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" 
+	xmlns:b="urn:import:org.gwtbootstrap3.client.ui"
+	xmlns:sp="urn:import:br.com.tagme.gwt.commons.client.components.formitem"
+	xmlns:b2="urn:import:org.gwtbootstrap3.extras.datetimepicker.client.ui" 
+	xmlns:c="urn:import:br.com.tagme.gwt.commons.client.components"
+	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
+
+	<b:Row>
+
+		<b:Modal ui:field="modalContato" title="Cadastro de Contato" hideOtherModals="false" closable="true" fade="true" dataBackdrop="STATIC">
+			<b:ModalBody>
+				<g:FormPanel ui:field="formPanel" addStyleNames="form-horizontal" method="POST">
+					<b:FieldSet ui:field="fsFormPanel">
+
+						<sp:FormItem ui:field="formNome" label="Nome" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formApelido" label="Apelido" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						
+						<b:Row styleName="form-group">
+							<b:Column size="XS_12,SM_3">
+								<b:FormLabel addStyleNames="form-label">Data Nasc.:</b:FormLabel>
+							</b:Column>
+							<b:Column size="XS_12,SM_6">
+								<b2:DateTimePicker ui:field="formDtNasc" />
+							</b:Column>
+						</b:Row>
+						
+						<sp:FormItem ui:field="formCargo" label="Cargo"
+							type="1" leftColumnSize="SM_3" rightColumnSize="SM_6" />
+						<sp:FormItem ui:field="formTelefone" label="Telefone"
+							type="1" leftColumnSize="SM_3" rightColumnSize="SM_4" />
+						<sp:FormItem ui:field="formRamal" label="Ramal" type="1"
+							leftColumnSize="SM_3" rightColumnSize="SM_2" />
+						<sp:FormItem ui:field="formEmail" label="E-mail"
+							type="1" leftColumnSize="SM_3" rightColumnSize="SM_6" />
+						
+						<b:Row styleName="form-group">
+							<b:Column size="XS_12,SM_3">
+								<b:FormLabel addStyleNames="form-label">Controles:</b:FormLabel>
+							</b:Column>
+							<b:Column size="XS_12,SM_8">
+								<b:CheckBox ui:field="formAbreOS" text="Pode abrir OS?" value="false" />
+								<b:CheckBox ui:field="formChat" text="Pode acessar o chat?" value="false" />
+								<b:CheckBox ui:field="formDownload" text="Pode fazer download?" value="false" />
+								<b:CheckBox ui:field="formAcessoBT" text="Possui Acesso ao Banco de Talentos?" value="false" />
+								<b:CheckBox ui:field="formBoletoEmail" text="Recebe boleto por e-mail?" value="false" />
+								<b:CheckBox ui:field="formNotaEmail" text="Recebe nota por email?" value="false" />
+								<b:CheckBox ui:field="formRecAviCob" text="Recebe aviso de cobrança?" value="false" />
+								<b:CheckBox ui:field="formAlteraContatos" text="Permite alterar contatos?" value="false" />
+								<b:CheckBox ui:field="formAlteraInfoParceiro" text="Altera informações de parceiro?" value="false" />
+								<b:CheckBox ui:field="formLiberaCNPJ" text="Solicita CNPJ?" value="false" />
+							</b:Column>
+						</b:Row>
+
+					</b:FieldSet>
+				</g:FormPanel>
+			</b:ModalBody>
+			<b:ModalFooter>
+				<b:Button type="SUCCESS" ui:field="botaoSalvarContato">Salvar</b:Button>
+				<b:Button type="DANGER" dataDismiss="MODAL">Cancelar</b:Button>
+			</b:ModalFooter>
+		</b:Modal>
+
+		<b:Column size="XS_12" ui:field="contatosContainer">
+			<b:Row>
+				<c:ButtonContainer>
+					<b:Button type="SUCCESS" icon="PLUS" ui:field="botaoModalNovo">Novo</b:Button>
+					<b:Button type="WARNING" icon="EDIT" ui:field="botaoModalEditar">Editar</b:Button>
+					<b:Button type="INFO" icon="CHECK" ui:field="botaoAtivar">Ativar</b:Button>
+					<b:Button type="DANGER" icon="BAN" ui:field="botaoInativar">Inativar</b:Button>
+				</c:ButtonContainer>
+				<b:Column hiddenOn="XS" size="SM_12">
+					<b:PageHeader subText="Contatos Autorizados" addStyleNames="small-page-header" />
+				</b:Column>
+			</b:Row>
+			<b:Row>
+				<b:Column size="XS_12" addStyleNames="justify-text" marginTop="5">
+					<h:Italic ui:field="textExplicaContato" text="Contatos são pessoas que, por possuírem um relacionamento mais próximo com a Sankhya, devem garantir ações e comunicações efetivas entre envolvidos com a solução. Ainda, contribuem e acessam o Sankhya Place e seus diversos benefícios." /> 
+				</b:Column>
+			</b:Row>
+			<b:Row ui:field="rowThumbnails" />
+			<b:Row ui:field="legenda" marginTop="20">
+				<b:Column size="XS_12" addStyleNames="justify-text">
+					<h:Italic ui:field="textPossuiConta" text="* Possui conta no Sankhya Place, mas está inativo."/>
+				</b:Column>
+				<b:Column size="XS_12" addStyleNames="justify-text">
+					<h:Italic ui:field="textNaoPossuiConta" text="** Não possui conta no Sankhya Place."/>
+				</b:Column>
+			</b:Row>
+		</b:Column>
+	</b:Row>
+</ui:UiBinder> 

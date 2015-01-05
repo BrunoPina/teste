@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<project name="SankhyaPlace-Auth-GWT-Dist" default="geral" basedir=".">
+	
+	<property name="jar_name" value="sankhyaplace-auth-gwt.jar" />
+	<property name="classesdestdir" value="${basedir}/bin"/>
+	
+	<path id="project.class.path">
+	    <fileset dir="${gwtsdk261}" includes="gwt-*.jar" />
+		<fileset dir="${gwtsdk261}" includes="validation-*.jar" />
+		<fileset dir="${sankhyaplace_api_outros_gwt}" includes="*.jar" />
+		<fileset dir="${localtmpjenkins}" includes="*-gwt.jar" />
+	</path>
+	
+	<target name="geral" description="Gerar jar">
+		
+		<delete file="${sankhyaplace_modules}/${jar_name}" failonerror="false" />
+		<echo>Limpando .class</echo>
+		<delete dir="${classesdestdir}" failonerror="false" />
+		
+		<mkdir dir="${classesdestdir}" />
+		
+		<echo>Compilando Java</echo>
+	    <javac srcdir="src" destdir="${classesdestdir}" includeantruntime="false" compiler="modern" encoding="ISO-8859-1">
+	    	<classpath refid="project.class.path" />
+	    </javac>
+		
+		<jar jarfile="${sankhyaplace_modules}/${jar_name}">
+			<fileset dir="${basedir}/src">
+				<include name="**/*.*" />
+			</fileset>
+			<fileset dir="${classesdestdir}" />
+		</jar>
+		
+	</target>
+	
+</project>
