@@ -83,7 +83,7 @@ public class AuthcDao implements IAuthcDao {
 					}
 				}
 				
-				authorities.addAll(swAuthService.getAuthorities(username));
+				//authorities.addAll(swAuthService.getAuthorities(username));
 				User user = new User(usuario, senha, authorities);
 				return user;
 			}else{

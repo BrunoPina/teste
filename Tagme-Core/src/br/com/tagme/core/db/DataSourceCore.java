@@ -11,8 +11,8 @@ public class DataSourceCore extends DriverManagerDataSource {
 	private static final String password = "oivalf1234567";
 	private static final String url = "jdbc:mysql://sankhyalibrarydb.cekq3idr0yxc.sa-east-1.rds.amazonaws.com:3306/snklibrarydb";*/
 	private static final String username = "root";
-	private static final String password = "root";
-	private static final String url = "jdbc:mysql://snkplace01:3306/tarefa";
+	private static final String password = "tecsis";
+	private static final String url = "jdbc:mysql://localhost:3306/tarefa";
 	
 	public DataSourceCore() {
 		setDriverClassName(driverClassName);

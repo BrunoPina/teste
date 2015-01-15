@@ -3,8 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
-	<classpathentry kind="lib" path="/Tagme-API-Outros/gwt/RetinaImages.jar"/>
 	<classpathentry kind="lib" path="/Tagme-API-Outros/gwt/gwtbootstrap3-0.8.jar"/>
 	<classpathentry kind="lib" path="/Tagme-API-Outros/gwt/gwtbootstrap3-extras-0.8.jar"/>
+	<classpathentry kind="lib" path="/Tagme-API-Outros/gwt/RetinaImages.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

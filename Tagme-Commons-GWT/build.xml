@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<project name="SankhyaPlace-Commons-GWT" default="geral" basedir=".">
+<project name="Tagme-Commons-GWT" default="geral" basedir=".">
 
-	<property name="jar_name" value="sankhyaplace-commons-gwt.jar" />
+	<property name="jar_name" value="Tagme-commons-gwt.jar" />
 
 	<path id="project.class.path">
 		<fileset dir="${api_outros}" includes="*.jar" />
@@ -12,11 +12,11 @@
 
 	<target name="geral" description="Gerar jar">
 
-		<delete file="${sankhyaplace_modules}/${jar_name}" />
+		<delete file="${Tagme_modules}/${jar_name}" />
 
 		<javac srcdir="${basedir}/src" destdir="${basedir}/bin" classpath="${project.class.path}" source="1.5" target="1.5" includeantruntime="false" />
 
-		<jar jarfile="${sankhyaplace_modules}/${jar_name}">
+		<jar jarfile="${Tagme_modules}/${jar_name}">
 			<fileset dir="${basedir}/src">
 				<include name="**/*.java" />
 			</fileset>
