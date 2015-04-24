@@ -38,4 +38,13 @@ public class SankhyaPlaceUsernamePasswordFilter extends UsernamePasswordAuthenti
 		super.unsuccessfulAuthentication(request, response, failed);
 	}
 	
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        //TODO  ExUsernamePasswordAuthenticationFilter  http://stackoverflow.com/questions/10074308/how-to-pass-an-additional-parameter-with-spring-security-login-page
+    	//final String dbValue = request.getParameter("_is_hotel");
+    	//request.getSession().setAttribute("dbValue", dbValue);
+
+        return super.attemptAuthentication(request, response); 
+    }
+	
 }

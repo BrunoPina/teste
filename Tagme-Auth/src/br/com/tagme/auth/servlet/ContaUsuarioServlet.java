@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.jdom2.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,13 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import br.com.tagme.commons.http.SchemeReference;
-import br.com.tagme.commons.spring.HttpContextSession;
-import br.com.tagme.commons.utils.SWServiceHelper;
-import br.com.tagme.commons.utils.SWServiceHelper.Campo;
-import br.com.tagme.commons.utils.StringUtils;
 import br.com.tagme.auth.dao.UsuarioDao;
 import br.com.tagme.auth.model.Usuario;
+import br.com.tagme.commons.http.SchemeReference;
+import br.com.tagme.commons.spring.HttpContextSession;
+import br.com.tagme.commons.utils.StringUtils;
 
 @Controller
 public class ContaUsuarioServlet {
@@ -124,7 +121,7 @@ public class ContaUsuarioServlet {
 	@RequestMapping(value = "/criarConta", headers = "content-type=multipart/*", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
 	public @ResponseBody void criarConta(HttpServletRequest request, HttpServletResponse response, @RequestParam("foto") MultipartFile file, @RequestParam Map<String, String> params) throws IOException {
 		
-		SWServiceHelper serviceHelper = new SWServiceHelper();
+		
 		
 		PasswordEncoder passwordEncode = new BCryptPasswordEncoder();
 		
@@ -148,21 +145,8 @@ public class ContaUsuarioServlet {
 			}else if(StringUtils.isNotEmpty(nome) && StringUtils.isNotEmpty(novaSenha) && StringUtils.isNotEmpty(confSenha)){
 			
 				if(confSenha.equals(novaSenha)){
-				
-					serviceHelper.setEntity("ValidaContaPlace");
-					
-					List<Campo> listCampos = new ArrayList<Campo>();
-					Campo campoEmail = new Campo("EMAIL", email);
-					listCampos.add(campoEmail);
-					Campo campoReenviarEmail = new Campo("REENVIAREMAIL", "N");
-					listCampos.add(campoReenviarEmail);
-					Element respElem = serviceHelper.callCrudSave(listCampos);
-					Element entidades = respElem.getChild("entidades");
-					Element entidade = entidades.getChild("entidade");
-					
-					String link = entidade.getChild("LINK").getValue();
-					
-					String chave = link.substring(link.lastIndexOf("/")+1);
+	
+					String chave = null;//link.substring(link.lastIndexOf("/")+1);
 					
 					Usuario usuario = new Usuario();
 					usuario.setAtivo(false);
@@ -252,67 +236,4 @@ public class ContaUsuarioServlet {
 		response.getWriter().println(responseString.toString());
 		
 	}
-	
-	@RequestMapping(value = "/reenviarEmailValidacao", produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
-	public @ResponseBody void reenviarEmailValidacao(HttpServletRequest request, HttpServletResponse response, @RequestParam("emailReenv") String emailReenv) throws IOException{
-		
-		SWServiceHelper serviceHelper = new SWServiceHelper();
-		
-		StringBuffer responseString = new StringBuffer("<html><head></head><body>");
-		int status = STATUS_ERROR;
-		String motivoErro = "";
-		
-		if(StringUtils.isNotEmpty(emailReenv)){
-			
-			Usuario usuario = usuarioDao.getUsuarioByUsername(emailReenv);
-			if(usuario != null){
-				if(!usuario.isAtivo()){
-					if(usuario.getDhAtivacao() == null){
-						
-						serviceHelper.setEntity("ValidaContaPlace");
-						serviceHelper.setCriterio("EMAIL", emailReenv);
-						serviceHelper.findField("CODSOLIC");
-						List<Element> listEntidades = serviceHelper.callCrudFind();
-						if(listEntidades.size() == 1){
-							Element entidade = listEntidades.get(0);
-							String codSolic = entidade.getChildText("CODSOLIC");
-							
-							List<Campo> listCampos = new ArrayList<Campo>();
-							Campo campoCodSolic = new Campo("CODSOLIC", codSolic);
-							listCampos.add(campoCodSolic);
-							Campo emailEnviadoN = new Campo("REENVIAREMAIL","N");
-							listCampos.add(emailEnviadoN);
-							serviceHelper.callCrudSave(listCampos);
-							
-							status = STATUS_SUCCESS;
-							responseString.append(STATUS_SUCCESS);
-						}else{
-							motivoErro = "Solicitação inexistente. Por favor, entre em contato com a central.";
-						}
-						
-					}else{
-						motivoErro = "Conta já foi ativada.";
-					}
-				}else{
-					motivoErro = "Conta já está ativa.";
-				}
-			}else{
-				motivoErro = "Conta inexistente.";
-			}
-			
-		}else{
-			motivoErro = "E-mail deve ser informado.";
-		}
-		
-		if(status == STATUS_ERROR){
-			responseString.append(STATUS_ERROR).append(";").append(motivoErro);
-		}
-		
-		responseString.append("</body></html>");
-
-		response.setContentType("text/html");
-		response.getWriter().println(responseString.toString());
-		
-	}
-	
 }

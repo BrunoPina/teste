@@ -6,7 +6,7 @@
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	
 	<g:FlowPanel ui:field="outerPanel">
-		<b:Modal ui:field="modal" closable="true" title="Criar conta Sankhya Place">
+		<b:Modal ui:field="modal" closable="true" title="Tagme">
 			<b:ModalBody>
 				<g:FormPanel ui:field="formPanel" addStyleNames="form-horizontal" method="POST">
 					<b:FieldSet ui:field="fsFormPanel">
@@ -27,14 +27,12 @@
 							</b:Column>
 						</b:Row>
 						<g:FileUpload name="foto" visible="false" ui:field="formFoto" />						
-						<sp:FormItem addStyleNames="first-form-item" name="email" ui:field="formEmail" label="E-mail:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
-						<b:Row>
-							<b:Column offset="SM_3" size="XS_12,SM_8" marginBottom="13" marginTop="-15" addStyleNames="justify-text">
-								<h:Italic ui:field="informeEmail" addStyleNames="small" text="Informe o email de maneira idêntica ao seu contato cadastrado junto à Sankhya ou seus acessos ficarão limitados." />							
-							</b:Column>
-						</b:Row>
-						<sp:FormItem ui:field="formNome" name="nome" label="Nome:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
-						<b:Divider />
+						<sp:FormItem ui:field="formNome" name="nome" label="Nome:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8"  addStyleNames="first-form-item"/>
+						<sp:FormItem ui:field="formCPF" name="cpf" label="CPF:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formSexo" name="sexo" label="Sexo:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem ui:field="formDtnasc" name="dtnasc" label="Data de Nascimento:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<b:Divider  title="Login"/>
+						<sp:FormItem ui:field="formEmail" name="email" label="E-mail:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />						
 						<sp:FormItem ui:field="formNovaSenha"  name="novaSenha" label="Nova Senha:" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="true" addStyleNames="first-form-item" />
 						<sp:FormItem ui:field="formConfSenha"  name="confSenha" label="Confirmar Senha:" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="true" addStyleNames="last-form-item" />
 					</b:FieldSet>

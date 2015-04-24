@@ -10,8 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import br.com.tagme.commons.auth.SankhyaPlaceUser;
 import br.com.tagme.auth.helper.AfterAuthenticationHelper;
+import br.com.tagme.commons.auth.SankhyaPlaceUser;
 
 @Component("sankhyaPlaceAuthenticationProvider")
 public class SankhyaPlaceAuthenticationProvider extends DaoAuthenticationProvider {
@@ -21,8 +21,6 @@ public class SankhyaPlaceAuthenticationProvider extends DaoAuthenticationProvide
 	@Autowired
 	private AfterAuthenticationHelper afterAuthenticationHelper;
 	
-	@Autowired
-	private SankhyaPlaceAdditionalChecks skPlaceAdditionalCheck;
 	
 	@Autowired
 	public SankhyaPlaceAuthenticationProvider(SankhyaPlaceUserDetailService userDetailService) {
@@ -32,15 +30,13 @@ public class SankhyaPlaceAuthenticationProvider extends DaoAuthenticationProvide
 
 	@Override
 	public Authentication authenticate(Authentication providedAuth) throws AuthenticationException{
-
+		
 		UsernamePasswordAuthenticationToken providedUsernamePassword = (UsernamePasswordAuthenticationToken) providedAuth;
 		User foundUser = (User) super.retrieveUser(providedAuth.getName(), providedUsernamePassword);
 		super.additionalAuthenticationChecks(foundUser, providedUsernamePassword);
 		SankhyaPlaceUser user = new SankhyaPlaceUser(foundUser);
 		user.setAuthenticated(true);
-		//skPlaceAdditionalCheck.skwAdditionalChecks(user);
 		afterAuthenticationHelper.initContextTo(user.getName());
 		return user;
 	}
-
 }

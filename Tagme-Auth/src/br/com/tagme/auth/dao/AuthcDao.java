@@ -9,13 +9,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import br.com.tagme.auth.db.ConnectionTemplate;
+import br.com.tagme.auth.db.TransactionalAuth;
 import br.com.tagme.commons.auth.Role;
 import br.com.tagme.commons.types.Resources;
 import br.com.tagme.commons.utils.StringUtils;
 import br.com.tagme.commons.utils.TimeUtils;
-import br.com.tagme.auth.db.ConnectionTemplate;
-import br.com.tagme.auth.db.TransactionalAuth;
-import br.com.tagme.auth.services.AuthzContatoSkw;
 
 /**
  * 
@@ -47,11 +46,10 @@ public class AuthcDao implements IAuthcDao {
 			List<Map<String, Object>> rows = ConnectionTemplate.getTemplate().queryForList(sql, new Object[] { username, username, username, username });
 			
 			List<Role> authorities = new ArrayList<Role>();
-			AuthzContatoSkw swAuthService = new AuthzContatoSkw();
-			
+					
 			String usuario = "";
 			String senha = "";
-			boolean isAtivo = false;
+			boolean isAtivo = true;
 			String resource;
 			String instance;
 			String action;
@@ -62,7 +60,7 @@ public class AuthcDao implements IAuthcDao {
 				for(Map<String, Object> row : rows){
 					usuario = (String) row.get("username");
 					senha = (String) row.get("password");
-					isAtivo = "S".equals((String) row.get("ativo")) ? true : false;
+					
 					dhativacao = TimeUtils.getTimestamp(row.get("dhativacao"));
 
 					resource = ("*").equals((String) row.get("resource")) ? "ALL" : ((String) row.get("resource"));
@@ -83,7 +81,6 @@ public class AuthcDao implements IAuthcDao {
 					}
 				}
 				
-				//authorities.addAll(swAuthService.getAuthorities(username));
 				User user = new User(usuario, senha, authorities);
 				return user;
 			}else{

@@ -62,7 +62,7 @@ public class CriarContaModal extends Composite implements HasWidgets{
 	@UiField ButtonGroup containerBtnFoto;
 	@UiField FieldSet fsFormPanel;
 	@UiField Button btnSalvar;
-	@UiField Italic informeEmail;
+	
 	private int counter = 0;
 	
 	private static final String TYPE_CHANGE_SUCCESS = "1";
@@ -70,11 +70,6 @@ public class CriarContaModal extends Composite implements HasWidgets{
 	
 	public CriarContaModal() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		if(AuthEntryPoint.isJiva()){
-			modal.setTitle("Criar conta Jiva");
-			informeEmail.setText("Informe o email de maneira idêntica ao seu contato cadastrado junto à Jiva ou seus acessos ficarão limitados.");
-		}
 
 		modal.setFade(true);
 		modal.setRemoveOnHide(true);
