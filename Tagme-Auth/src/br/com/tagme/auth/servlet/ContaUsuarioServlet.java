@@ -1,7 +1,12 @@
 package br.com.tagme.auth.servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.tagme.auth.dao.PessoaDao;
 import br.com.tagme.auth.dao.UsuarioDao;
+import br.com.tagme.auth.model.Pessoa;
 import br.com.tagme.auth.model.Usuario;
 import br.com.tagme.commons.http.SchemeReference;
 import br.com.tagme.commons.spring.HttpContextSession;
@@ -36,6 +43,9 @@ public class ContaUsuarioServlet {
 	@Autowired
 	private UsuarioDao			usuarioDao;
 
+	@Autowired
+	private PessoaDao			pessoaDao;
+	
 	private static final int	STATUS_SUCCESS	= 1;
 	private static final int	STATUS_ERROR	= 2;
 	
@@ -118,8 +128,8 @@ public class ContaUsuarioServlet {
 		response.getWriter().println(responseString.toString());
 	}
 	
-	@RequestMapping(value = "/criarConta", headers = "content-type=multipart/*", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
-	public @ResponseBody void criarConta(HttpServletRequest request, HttpServletResponse response, @RequestParam("foto") MultipartFile file, @RequestParam Map<String, String> params) throws IOException {
+	@RequestMapping(value = "/criarConta", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
+	public @ResponseBody void criarConta(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException {
 		
 		
 		
@@ -155,12 +165,6 @@ public class ContaUsuarioServlet {
 					usuario.setSenha(passwordEncode.encode(novaSenha));
 					usuario.setChave(chave);
 					
-					if (!file.isEmpty()) {
-						byte[] bytes = file.getBytes();
-						usuario.setFoto(bytes);
-						uploadFoto = true;
-					}
-					
 					usuarioDao.insertUsuario(usuario, uploadFoto);
 					
 					responseString.append(STATUS_SUCCESS);
@@ -187,6 +191,88 @@ public class ContaUsuarioServlet {
 		response.getWriter().println(responseString.toString());
 		
 	}
+	
+
+	@RequestMapping(value = "/criarPessoa", headers = "content-type=multipart/*", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
+	public @ResponseBody void criarPessoa(HttpServletRequest request, HttpServletResponse response, @RequestParam("foto") MultipartFile file, @RequestParam Map<String, String> params) throws IOException {
+		
+		StringBuffer responseString = new StringBuffer("<html><head></head><body>");
+		int status = STATUS_SUCCESS;
+
+		String motivoErro = "";
+		
+		String nomeCompleto = params.get("nomeCompleto");
+		String profissao = params.get("profissao");
+		String dtNasc = params.get("dtNasc");
+		String cpf = params.get("cpf");
+		String endereco = params.get("endereco");
+		String bairro = params.get("bairro");
+		String cep = params.get("cep");
+		String cidade = params.get("cidade");
+		String estado = params.get("estado");
+		String nacionalidade = params.get("nacionalidade");
+		String telefone = params.get("telefone");
+		String celular = params.get("celular");
+		String sexo = params.get("sexo");
+		String fumante = params.get("fumante");
+		String email = params.get("email");
+
+		boolean uploadFoto = false;
+		
+		
+		final String FORMATO_DATA = "dd/MM/yyyy";
+	
+		DateFormat formatter = new SimpleDateFormat(FORMATO_DATA);
+		Date dtNascDate = null;
+		try {
+			dtNascDate = formatter.parse(dtNasc);
+		} catch (ParseException e) {
+			status = STATUS_ERROR;
+			motivoErro = "Formado da 'Data de nascimento' inváido.";
+		}
+		
+		Pessoa pessoa = new Pessoa();
+		pessoa.setNomeCompleto(nomeCompleto);
+		pessoa.setProfissao(profissao);
+		pessoa.setDtNasc(new Timestamp(dtNascDate.getTime()));
+		pessoa.setCpf(cpf);
+		pessoa.setEndereco(endereco);
+		pessoa.setBairro(bairro);
+		pessoa.setCep(cep);
+		pessoa.setCidade(cidade);
+		pessoa.setEstado(estado);
+		pessoa.setNacionalidade(nacionalidade);
+		pessoa.setTelefone(telefone);
+		pessoa.setCelular(celular);
+		pessoa.setSexo(sexo);
+		pessoa.setFumante(fumante);
+		pessoa.setEmail(email);
+		
+		if (status == STATUS_SUCCESS) {
+
+			if (!file.isEmpty()) {
+				byte[] bytes = file.getBytes();
+				pessoa.setFoto(bytes);
+				uploadFoto = true;
+			}
+			pessoaDao.insertPessoa(pessoa, uploadFoto);
+		}
+
+		responseString.append(String.valueOf(status)).append(";");
+
+		if (status == STATUS_SUCCESS) {
+			responseString.append(pessoa.getNomeCompleto()).append(";");
+			//responseString.append(pessoa.getDataHoraAlteracao(usuario).toString());
+		} else {
+			responseString.append(motivoErro);
+		}
+
+		responseString.append("</body></html>");
+
+		response.setContentType("text/html");
+		response.getWriter().println(responseString.toString());
+		
+	}	
 	
 	@RequestMapping(value = "/validarConta/{chave}", produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.GET)
 	public @ResponseBody void validarConta(HttpServletRequest request, HttpServletResponse response, @PathVariable("chave") String chave) throws IOException, ServletException{

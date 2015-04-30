@@ -1,11 +1,16 @@
 package br.com.tagme.auth.helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jdom2.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.tagme.commons.spring.HttpContextSession;
+
 import br.com.tagme.auth.dao.UsuarioDao;
 import br.com.tagme.auth.model.Usuario;
-import br.com.tagme.commons.spring.HttpContextSession;
 
 @Service
 public class AfterAuthenticationHelper {
@@ -25,6 +30,8 @@ public class AfterAuthenticationHelper {
 	public void initContextTo(String username){
 		
 		getSKPlaceUserInfo(username);
+		//getSKWUserInfo(username);
+		
 		setLoggedIn();
 	}
 
@@ -44,6 +51,5 @@ public class AfterAuthenticationHelper {
 		usuarioDao.setLoggedIn(usuario);
 	}
 	
-
 
 }
