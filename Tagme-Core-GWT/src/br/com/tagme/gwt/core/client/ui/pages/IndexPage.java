@@ -40,7 +40,7 @@ public class IndexPage extends DefaultCompositeWithPresenter {
 	@UiField Column thumbPos6;
 	@UiField Column thumbPos7;
 	@UiField Column thumbPos8;
-	
+	//para debugar http://localhost:8080/Tagme-Core/?gwt.codesvr=127.0.0.1:9997
 	public IndexPage(DefaultActivity presenter) {
 		super(presenter);
 		

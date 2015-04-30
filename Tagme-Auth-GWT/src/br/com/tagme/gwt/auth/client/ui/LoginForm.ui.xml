@@ -28,6 +28,11 @@
 							<b:InputGroupAddon icon="LOCK"/>
 						</b:InputGroup>
 					</b:FormGroup>
+
+					<b:FormGroup>
+						<b:CheckBox ui:field="is_hotel" name="_is_hotel">Login de Hotel</b:CheckBox>
+					</b:FormGroup>
+
 					
 					<b:FormGroup>
 						<b:CheckBox ui:field="remember_me" name="_spring_security_remember_me">Permanecer conectado</b:CheckBox>

@@ -28,11 +28,8 @@
 						</b:Row>
 						<g:FileUpload name="foto" visible="false" ui:field="formFoto" />						
 						<sp:FormItem ui:field="formNome" name="nome" label="Nome:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8"  addStyleNames="first-form-item"/>
-						<sp:FormItem ui:field="formCPF" name="cpf" label="CPF:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
-						<sp:FormItem ui:field="formSexo" name="sexo" label="Sexo:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
-						<sp:FormItem ui:field="formDtnasc" name="dtnasc" label="Data de Nascimento:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
-						<b:Divider  title="Login"/>
 						<sp:FormItem ui:field="formEmail" name="email" label="E-mail:" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />						
+						<b:Divider  title="Login"/>						
 						<sp:FormItem ui:field="formNovaSenha"  name="novaSenha" label="Nova Senha:" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="true" addStyleNames="first-form-item" />
 						<sp:FormItem ui:field="formConfSenha"  name="confSenha" label="Confirmar Senha:" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="true" addStyleNames="last-form-item" />
 					</b:FieldSet>

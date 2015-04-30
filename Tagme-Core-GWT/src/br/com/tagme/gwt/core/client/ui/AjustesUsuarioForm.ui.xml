@@ -6,7 +6,7 @@
 	xmlns:h="urn:import:org.gwtbootstrap3.client.ui.html">
 	
 	<g:FlowPanel ui:field="outerPanel">
-		<b:Modal ui:field="modal" closable="true" title="Ajustes da Conta">
+		<b:Modal ui:field="modal" closable="true" title="Informações para Check-ins">
 			<b:ModalBody>
 				<g:FormPanel ui:field="formPanel" addStyleNames="form-horizontal" method="POST">
 					<b:FieldSet ui:field="fsFormPanel">
@@ -27,21 +27,24 @@
 							</b:Column>
 						</b:Row>
 						<g:FileUpload name="foto" visible="false" ui:field="formFoto" />						
-						<sp:FormItem addStyleNames="first-form-item" ui:field="formEmail" label="E-mail" type="0" leftColumnSize="SM_3" rightColumnSize="SM_9" />
-						<sp:FormItem autoComplete="false" ui:field="formNome" name="nome" label="Nome*" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem addStyleNames="first-form-item"  ui:field="formNomeCompleto" name="nomeCompleto" label="Nome Completo*" type="1" leftColumnSize="SM_3" rightColumnSize="SM_9" />
+						<sp:FormItem autoComplete="false" ui:field="formEmail" name="email" label="Email*" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formProfissao" name="profissao" label="Profissão" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formDtNasc" name="dtNasc" label="Data de Nascimento" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formCpf" name="cpf" label="CPF" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formEndereco" name="endereco" label="Endereço" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formBairro" name="bairro" label="Bairro" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formCep" name="cep" label="CEP" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formCidade" name="cidade" label="Cidade" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formEstado" name="estado" label="Estado" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formNacionalidade" name="nacionalidade" label="Nacionalidade" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formTelefone" name="telefone" label="Telefone" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formCelular" name="celular" label="Celular" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formSexo" name="sexo" label="Sexo" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
+						<sp:FormItem autoComplete="false" ui:field="formFumante" name="fumante" label="Fumante" type="1" leftColumnSize="SM_3" rightColumnSize="SM_8" />
 						<b:Row>
 							<b:Column offset="SM_3" size="XS_12,SM_8" marginBottom="6">
 								<h:Italic addStyleNames="small" text="* Campo obrigatório." />							
-							</b:Column>
-						</b:Row>
-						<b:Divider />
-						<sp:FormItem ui:field="formAlteraSenha" name="alteraSenha" label="Alterar Senha" value="N" type="3" leftColumnSize="SM_3" rightColumnSize="SM_8" />
-						<sp:FormItem ui:field="formSenhaAtual"  name="senhaAtual" label="Senha Atual*" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="false" />
-						<sp:FormItem ui:field="formNovaSenha"  name="novaSenha" label="Nova Senha*" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="false" />
-						<sp:FormItem ui:field="formConfSenha"  name="confSenha" label="Confirmar Senha*" type="2" leftColumnSize="SM_3" rightColumnSize="SM_5" enabled="false" />
-						<b:Row>
-							<b:Column offset="SM_3" size="XS_12,SM_8">
-								<h:Italic addStyleNames="small" text="* Campos obrigatórios." />							
 							</b:Column>
 						</b:Row>
 					</b:FieldSet>

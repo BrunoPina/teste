@@ -8,5 +8,5 @@
 	<classpathentry kind="lib" path="/Tagme-API-Outros/gwt/gwtbootstrap3-extras-0.8.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Tagme-Auth-GWT"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Tagme-Commons-GWT"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

@@ -7,14 +7,11 @@ import org.gwtbootstrap3.client.ui.ButtonGroup;
 import org.gwtbootstrap3.client.ui.FieldSet;
 import org.gwtbootstrap3.client.ui.Image;
 import org.gwtbootstrap3.client.ui.Modal;
-import org.gwtbootstrap3.client.ui.constants.Placement;
-import org.gwtbootstrap3.client.ui.constants.ValidationState;
 import org.gwtbootstrap3.client.ui.html.Paragraph;
 
 import br.com.tagme.gwt.commons.client.auth.AppAuth;
 import br.com.tagme.gwt.commons.client.components.Alert;
 import br.com.tagme.gwt.commons.client.components.formitem.FormItem;
-import br.com.tagme.gwt.commons.client.components.formitem.FormItemWidget.ValueCommitCommand;
 import br.com.tagme.gwt.commons.client.integracao.SchemeReference;
 import br.com.tagme.gwt.commons.utils.client.StringUtils;
 
@@ -23,8 +20,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -51,11 +46,7 @@ public class AjustesUsuarioForm extends Composite implements HasWidgets{
 	@UiField FlowPanel outerPanel;
 	
 	@UiField FormItem<String> formEmail;
-	@UiField FormItem<String> formNome;
-	@UiField FormItem<Boolean> formAlteraSenha;
-	@UiField FormItem<String> formSenhaAtual;
-	@UiField FormItem<String> formNovaSenha;
-	@UiField FormItem<String> formConfSenha;
+	@UiField FormItem<String> formNomeCompleto;
 	@UiField Button btnAlterarFoto;
 	@UiField Button btnCancelarFoto;
 	@UiField FileUpload formFoto;
@@ -76,7 +67,7 @@ public class AjustesUsuarioForm extends Composite implements HasWidgets{
 		modal.setFade(true);
 		modal.setRemoveOnHide(true);
 		
-		formPanel.setAction(SchemeReference.SKP_RELATIVEURL + "ajustesConta");
+		formPanel.setAction(SchemeReference.SKP_RELATIVEURL + "criarPessoa");
 		formPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
 		formPanel.addSubmitCompleteHandler(new SubmitCompleteHandler() {
 			
@@ -110,70 +101,11 @@ public class AjustesUsuarioForm extends Composite implements HasWidgets{
 		
 		formEmail.setValue(AppAuth.getInstance().getUsername());
 		
-		formNome.setValue(AppAuth.getInstance().getName());
+		formNomeCompleto.setValue(AppAuth.getInstance().getName());
 		
-		formAlteraSenha.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				if(event.getValue() == Boolean.TRUE){
-					formSenhaAtual.setEnabled(true);
-					formNovaSenha.setEnabled(true);
-					formConfSenha.setEnabled(true);
-				}else{
-					formSenhaAtual.setValue("");
-					formSenhaAtual.setEnabled(false);
-					formSenhaAtual.hideTooltip();
-					formNovaSenha.setValue("");
-					formNovaSenha.setEnabled(false);
-					formNovaSenha.hideTooltip();
-					formConfSenha.setValue("");
-					formConfSenha.setEnabled(false);
-					formConfSenha.hideTooltip();
-				}
-			}
-		});
+
 		
-		formConfSenha.addOnValueCommitCommand(new ValueCommitCommand() {
-			
-			@Override
-			public void validate() {
-				String novaSenha = formNovaSenha.getValueAsString();
-				String senhaConf = formConfSenha.getValueAsString();
-				hideAllTooltips();
-				if(StringUtils.isEmpty(senhaConf)){
-					if(!StringUtils.isEmpty(novaSenha)){
-						formConfSenha.createAndShowTooltip("Confirme sua nova senha", ValidationState.ERROR, Placement.TOP);
-					}else{
-						formNovaSenha.createAndShowTooltip("Informe sua nova senha", ValidationState.ERROR);
-					}
-				}else{
-					if(!senhaConf.equals(novaSenha)){
-						formConfSenha.createAndShowTooltip("Senhas não conferem", ValidationState.ERROR, Placement.TOP);
-					}else{
-						if(StringUtils.isEmpty(formSenhaAtual.getValueAsString())){
-							formSenhaAtual.createAndShowTooltip("Informe sua senha atual", ValidationState.ERROR);
-						}else{
-							formConfSenha.createAndShowTooltip("Ok", ValidationState.SUCCESS, Placement.RIGHT);
-						}
-					}
-				}
-				
-			}
-		});
 		
-		formSenhaAtual.addOnValueCommitCommand(new ValueCommitCommand() {
-			
-			@Override
-			public void validate() {
-				hideAllTooltips();
-				if(StringUtils.isEmpty(formSenhaAtual.getValueAsString())){
-					formSenhaAtual.createAndShowTooltip("Informe sua senha atual", ValidationState.ERROR);
-				}else if(!StringUtils.isEmpty(formNovaSenha.getValueAsString()) && !StringUtils.isEmpty(formConfSenha.getValueAsString()) && formConfSenha.getValueAsString().equals(formNovaSenha.getValueAsString())){
-					formConfSenha.createAndShowTooltip("Ok", ValidationState.SUCCESS, Placement.RIGHT);
-				}
-			}
-		});
 		
 		formFoto.addChangeHandler(new ChangeHandler() {
 			
@@ -235,11 +167,6 @@ public class AjustesUsuarioForm extends Composite implements HasWidgets{
 		element.click();
 	}-*/;
 	
-	private void hideAllTooltips(){
-		formSenhaAtual.hideTooltip();
-		formConfSenha.hideTooltip();
-		formNovaSenha.hideTooltip();
-	}
 	
 	@UiHandler("btnSalvar")
 	public void onBtnSalvarClick(ClickEvent e){
@@ -248,23 +175,12 @@ public class AjustesUsuarioForm extends Composite implements HasWidgets{
 	
 	private void refresh(){
 		counter++;
-		formNome.setValue(AppAuth.getInstance().getName());
+		formNomeCompleto.setValue(AppAuth.getInstance().getName());
 		
 		fileName.setVisible(false);
 		btnCancelarFoto.removeFromParent();
 		
 		imgUsuario.setUrl(SchemeReference.SKP_RELATIVEURL + "image/user/currUser"+counter+".png?w=90&h=90&r=true&s=true");
-		
-		formAlteraSenha.setValue("N");
-		formSenhaAtual.setValue("");
-		formSenhaAtual.setEnabled(false);
-		formSenhaAtual.hideTooltip();
-		formNovaSenha.setValue("");
-		formNovaSenha.setEnabled(false);
-		formNovaSenha.hideTooltip();
-		formConfSenha.setValue("");
-		formConfSenha.setEnabled(false);
-		formConfSenha.hideTooltip();
 	}
 	
 }

@@ -50,7 +50,7 @@
 			<arg value="-optimize" />
 			<arg value="0" />
 			<arg value="-localWorkers" />
-			<arg value="4" />
+			<arg value="1" />
 			<arg value="-logLevel" />
 			<arg value="INFO" />
 			<arg value="-moduleSrc" />
