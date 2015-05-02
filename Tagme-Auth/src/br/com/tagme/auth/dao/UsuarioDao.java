@@ -158,7 +158,7 @@ public class UsuarioDao implements IDao {
 
 	public boolean updateUsuario(Usuario usuario, boolean updateFoto) {
 
-		String sql = "UPDATE sec_sujeito " + "SET nome = ?, senha = ?, foto = ?, dhalter_perfil = CURRENT_TIMESTAMP ";
+		String sql = "UPDATE sec_sujeito " + "SET nome = ?, senha = ?, foto = ?, codpes = ? ,dhalter_perfil = CURRENT_TIMESTAMP ";
 
 		if (updateFoto) {
 			sql += ", dhalter_foto = CURRENT_TIMESTAMP ";
@@ -166,7 +166,7 @@ public class UsuarioDao implements IDao {
 
 		sql += "WHERE cod_sujeito = ?";
 
-		int rows = ConnectionTemplate.getTemplate().update(sql, new Object[] { usuario.getNome(), usuario.getSenha(), usuario.getFoto(), usuario.getCodUsu() });
+		int rows = ConnectionTemplate.getTemplate().update(sql, new Object[] { usuario.getNome(), usuario.getSenha(), usuario.getFoto(),usuario.getCodPes(), usuario.getCodUsu() });
 
 		if (rows == 0) {
 			return false;

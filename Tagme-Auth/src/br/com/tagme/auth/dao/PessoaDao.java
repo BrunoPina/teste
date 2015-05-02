@@ -1,17 +1,28 @@
 package br.com.tagme.auth.dao;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import com.mysql.jdbc.Statement;
 
 import br.com.tagme.auth.db.ConnectionTemplate;
 import br.com.tagme.auth.model.Pessoa;
+import br.com.tagme.auth.model.Usuario;
 import br.com.tagme.commons.daointerfaces.GenericObject;
 import br.com.tagme.commons.daointerfaces.IDao;
 import br.com.tagme.commons.spring.HttpContextSession;
@@ -21,6 +32,10 @@ public class PessoaDao implements IDao {
 
 	@Autowired
 	private HttpContextSession	contextSession;
+	
+	@Autowired
+	private UsuarioDao			usuarioDao;
+
 
 	public PessoaDao() {
 	}
@@ -65,31 +80,45 @@ public class PessoaDao implements IDao {
 	}
 
 	
-	public void insertPessoa(Pessoa pessoa, boolean uploadFoto) {
+	public void insertPessoa(final Pessoa pessoa, boolean uploadFoto) {
 		
-		if(!uploadFoto){
-			String sql = "INSERT INTO TAGPES (nomeCompleto, profissao,dtnasc, cpf, endereco, bairro, cep, cidade, estado, nacionalidade, telefone, celular, sexo, fumante ,email)"
-				       + "VALUES(?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?);";
-			ConnectionTemplate.getTemplate().update(sql, new Object[] {pessoa.getNomeCompleto(),
-					pessoa.getProfissao(),
-					pessoa.getDtNasc(),
-					pessoa.getCpf(),
-					pessoa.getEndereco(),
-					pessoa.getBairro(),
-					pessoa.getCep(),
-					pessoa.getCidade(),
-					pessoa.getEstado(),
-					pessoa.getNacionalidade(),
-					pessoa.getTelefone(),
-					pessoa.getCelular(),
-					pessoa.getSexo(),
-					pessoa.getFumante(),
-					pessoa.getEmail()});
-		}else{
-			// TODO  com foto
-		}
+		//TODO Com Foto
+		
+		HashMap<String, Object> parametros = new HashMap<String, Object>();
+		parametros.put("nomeCompleto"  , pessoa.getNomeCompleto());
+		parametros.put("profissao"     , pessoa.getProfissao());
+		parametros.put("dtNasc"        , pessoa.getDtNasc());
+		parametros.put("cpf"           , pessoa.getCpf());
+		parametros.put("endereco"      , pessoa.getEndereco());
+		parametros.put("bairro"        , pessoa.getBairro());
+		parametros.put("cep"           , pessoa.getCep());
+		parametros.put("cidade"        , pessoa.getCidade());
+		parametros.put("estado"        , pessoa.getEstado());
+		parametros.put("nacionalidade" , pessoa.getNacionalidade());
+		parametros.put("telefone"      , pessoa.getTelefone());
+		parametros.put("celular"       , pessoa.getCelular());
+		parametros.put("sexo"          , pessoa.getSexo());
+		parametros.put("fumante"       , pessoa.getFumante());
+		parametros.put("email"         , pessoa.getEmail());
+		
+		long codPes = new SimpleJdbcInsert(ConnectionTemplate.getTemplate())
+		.withTableName("TAGPES")
+		.usingGeneratedKeyColumns("codpes")
+		.executeAndReturnKey(parametros).longValue();
+		
+		vincularUsuario(codPes);		
 		
 	}
+	
+	private void vincularUsuario(long codPes){
+		Usuario usuario = usuarioDao.getUsuarioById(contextSession.getSKPLACE_CODUSU());
+		usuario.setCodPes(new BigDecimal(codPes));
+		usuarioDao.updateUsuario(usuario, false);
+	}
+	
+	
+	
+	
 
 	@Override
 	public GenericObject findByKey(String key) {

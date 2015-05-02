@@ -1,5 +1,6 @@
 package br.com.tagme.auth.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Usuario {
@@ -15,6 +16,7 @@ public class Usuario {
 	private boolean		isAtivo;
 	private String 		chave;
 	private Timestamp	dhativacao;
+	private BigDecimal  codPes; 		
 
 	public String getCodUsu() {
 		return codUsu;
@@ -103,5 +105,14 @@ public class Usuario {
 	public void setDhAtivacao(Timestamp dhativacao){
 		this.dhativacao = dhativacao;
 	}
+	
+	public BigDecimal getCodPes(){
+		return this.codPes;
+	}
+	
+	public void setCodPes(BigDecimal codPes){
+		this.codPes = codPes;
+	}
+	
 	
 }

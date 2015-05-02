@@ -5,9 +5,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -26,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.sankhya.place.validator.CPFValidator;
+import br.com.sankhya.place.validator.EmailValidator;
 import br.com.tagme.auth.dao.PessoaDao;
 import br.com.tagme.auth.dao.UsuarioDao;
 import br.com.tagme.auth.model.Pessoa;
@@ -128,10 +128,9 @@ public class ContaUsuarioServlet {
 		response.getWriter().println(responseString.toString());
 	}
 	
-	@RequestMapping(value = "/criarConta", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
-	public @ResponseBody void criarConta(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException {
-		
-		
+	@RequestMapping(value = "/criarConta", method = RequestMethod.POST)
+	public @ResponseBody void criarConta(HttpServletRequest request, HttpServletResponse response,@RequestParam Map<String, String> params) throws IOException {
+	
 		
 		PasswordEncoder passwordEncode = new BCryptPasswordEncoder();
 		
@@ -140,10 +139,14 @@ public class ContaUsuarioServlet {
 		String motivoErro = "";
 		
 		String email = params.get("email");
-		String nome = params.get("nome");
 		String novaSenha = params.get("novaSenha");
 		String confSenha = params.get("confSenha");
 		boolean uploadFoto = false;
+		
+		if(!(new EmailValidator()).validate(email) ){
+			responseString.append(STATUS_ERROR);
+			motivoErro = "Formato de Email inválido.";
+		}
 		
 		if(StringUtils.isNotEmpty(email)){
 		
@@ -152,7 +155,7 @@ public class ContaUsuarioServlet {
 			if(foundUsuario != null){
 				responseString.append(STATUS_ERROR);
 				motivoErro = "Já existe uma conta com este e-mail.";
-			}else if(StringUtils.isNotEmpty(nome) && StringUtils.isNotEmpty(novaSenha) && StringUtils.isNotEmpty(confSenha)){
+			}else if(StringUtils.isNotEmpty(email) && StringUtils.isNotEmpty(novaSenha) && StringUtils.isNotEmpty(confSenha)){
 			
 				if(confSenha.equals(novaSenha)){
 	
@@ -161,7 +164,6 @@ public class ContaUsuarioServlet {
 					Usuario usuario = new Usuario();
 					usuario.setAtivo(false);
 					usuario.setEmail(email);
-					usuario.setNome(nome);
 					usuario.setSenha(passwordEncode.encode(novaSenha));
 					usuario.setChave(chave);
 					
@@ -192,8 +194,8 @@ public class ContaUsuarioServlet {
 		
 	}
 	
-
-	@RequestMapping(value = "/criarPessoa", headers = "content-type=multipart/*", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
+	
+	@RequestMapping(value = "/criarPessoa", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
 	public @ResponseBody void criarPessoa(HttpServletRequest request, HttpServletResponse response, @RequestParam("foto") MultipartFile file, @RequestParam Map<String, String> params) throws IOException {
 		
 		StringBuffer responseString = new StringBuffer("<html><head></head><body>");
@@ -229,6 +231,18 @@ public class ContaUsuarioServlet {
 		} catch (ParseException e) {
 			status = STATUS_ERROR;
 			motivoErro = "Formado da 'Data de nascimento' inváido.";
+		}
+		
+		EmailValidator emailValidator = new EmailValidator();
+		if(!emailValidator.validate(email)){
+			status = STATUS_ERROR;
+			motivoErro = "Formado do 'Email' inváido.";
+		}
+		
+		
+		if(!CPFValidator.validate(cpf)){
+			status = STATUS_ERROR;
+			motivoErro = "'CPF' inváido.";
 		}
 		
 		Pessoa pessoa = new Pessoa();
