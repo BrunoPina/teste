@@ -10,9 +10,6 @@ import org.jdom2.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
-
 import br.com.tagme.commons.dao.PessoaDao;
 import br.com.tagme.commons.http.XMLService;
 import br.com.tagme.commons.model.Pessoa;

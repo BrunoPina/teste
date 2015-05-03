@@ -31,4 +31,8 @@
 	
 	<bean id="logoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"></bean>
 	
+	
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="DataSourceCore"/>
+	</bean>
 </beans>

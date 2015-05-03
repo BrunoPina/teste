@@ -27,9 +27,7 @@ public class Pessoa {
 	private String sexo;
 	private String fumante; 
 	private String email;
-	private Timestamp	dhalter_perfil;
-	private Timestamp	dhalter_foto;
-	private Timestamp	last_login;
+
 	
 	private static List<FieldMetadata> FIELDS_METADATA = new ArrayList<FieldMetadata>();
 	

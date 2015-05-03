@@ -69,7 +69,7 @@ public class PessoaDao implements IDao {
 	}
 
 	
-	public void insertPessoa(final Pessoa pessoa, boolean uploadFoto) {
+	public long insertPessoa(final Pessoa pessoa, boolean uploadFoto) {
 		
 		//TODO Com Foto
 		
@@ -90,7 +90,7 @@ public class PessoaDao implements IDao {
 		parametros.put("fumante"       , pessoa.getFumante());
 		parametros.put("email"         , pessoa.getEmail());
 		
-		long codPes = new SimpleJdbcInsert(ConnectionTemplateFactory.getTemplate())
+		return new SimpleJdbcInsert(ConnectionTemplateFactory.getTemplate())
 		.withTableName("TAGPES")
 		.usingGeneratedKeyColumns("codpes")
 		.executeAndReturnKey(parametros).longValue();
