@@ -1,8 +1,5 @@
-package br.com.tagme.auth.dao;
+package br.com.tagme.commons.dao;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -11,20 +8,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import com.mysql.jdbc.Statement;
-
-import br.com.tagme.auth.db.ConnectionTemplate;
-import br.com.tagme.auth.model.Pessoa;
-import br.com.tagme.auth.model.Usuario;
 import br.com.tagme.commons.daointerfaces.GenericObject;
 import br.com.tagme.commons.daointerfaces.IDao;
+import br.com.tagme.commons.model.Pessoa;
+import br.com.tagme.commons.spring.ConnectionTemplateFactory;
 import br.com.tagme.commons.spring.HttpContextSession;
 
 @Repository
@@ -33,8 +24,6 @@ public class PessoaDao implements IDao {
 	@Autowired
 	private HttpContextSession	contextSession;
 	
-	@Autowired
-	private UsuarioDao			usuarioDao;
 
 
 	public PessoaDao() {
@@ -42,15 +31,18 @@ public class PessoaDao implements IDao {
 
 	public Pessoa getPessoaById(final String id) {
 
-		String sql = "SELECT cod_sujeito as codUsu, usuario as email, senha, foto, dhalter_perfil, dhalter_foto, nome, last_login, ativo " + "FROM sec_sujeito " + "WHERE cod_sujeito = ?";
+		String sql = "SELECT  CODPES ,nomecompleto, profissao, dtnasc, cpf, endereco,bairro,cep,cidade,ESTADO, NACIONALIDADE, TELEFONE, CELULAR, SEXO, FUMANTE, EMAIL "
+					+ "from TAGPES "
+					+ "where CODPES = ?";
 
 		try{
-			Pessoa pessoa = ConnectionTemplate.getTemplate().queryForObject(sql, new Object[] { id }, new RowMapper<Pessoa>() {
+			Pessoa pessoa = ConnectionTemplateFactory.getTemplate().queryForObject(sql, new Object[] { id }, new RowMapper<Pessoa>() {
 	
 				@Override
 				public Pessoa mapRow(ResultSet rs, int rowNum) throws SQLException {
 	
 					Pessoa pessoa = new Pessoa();
+					pessoa.setCodPes(rs.getString("codpes"));
 					pessoa.setNomeCompleto(rs.getString("nomeCompleto"));
 					pessoa.setProfissao(rs.getString("profissao"));
 					pessoa.setDtNasc(rs.getTimestamp("dtnasc"));
@@ -66,9 +58,6 @@ public class PessoaDao implements IDao {
 					pessoa.setSexo(rs.getString("sexo"));
 					pessoa.setFumante(rs.getString("fumante"));
 					pessoa.setEmail(rs.getString("email"));
-					pessoa.setFoto(rs.getBytes("foto"));
-					
-	
 					return pessoa;
 				}
 	
@@ -101,20 +90,20 @@ public class PessoaDao implements IDao {
 		parametros.put("fumante"       , pessoa.getFumante());
 		parametros.put("email"         , pessoa.getEmail());
 		
-		long codPes = new SimpleJdbcInsert(ConnectionTemplate.getTemplate())
+		long codPes = new SimpleJdbcInsert(ConnectionTemplateFactory.getTemplate())
 		.withTableName("TAGPES")
 		.usingGeneratedKeyColumns("codpes")
 		.executeAndReturnKey(parametros).longValue();
 		
-		vincularUsuario(codPes);		
+		//vincularUsuario(codPes);		
 		
 	}
-	
+	/*
 	private void vincularUsuario(long codPes){
 		Usuario usuario = usuarioDao.getUsuarioById(contextSession.getSKPLACE_CODUSU());
 		usuario.setCodPes(new BigDecimal(codPes));
 		usuarioDao.updateUsuario(usuario, false);
-	}
+	}*/
 	
 	
 	

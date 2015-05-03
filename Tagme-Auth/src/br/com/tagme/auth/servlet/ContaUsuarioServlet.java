@@ -26,11 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.sankhya.place.validator.CPFValidator;
 import br.com.sankhya.place.validator.EmailValidator;
-import br.com.tagme.auth.dao.PessoaDao;
 import br.com.tagme.auth.dao.UsuarioDao;
-import br.com.tagme.auth.model.Pessoa;
 import br.com.tagme.auth.model.Usuario;
+import br.com.tagme.commons.dao.PessoaDao;
 import br.com.tagme.commons.http.SchemeReference;
+import br.com.tagme.commons.model.Pessoa;
 import br.com.tagme.commons.spring.HttpContextSession;
 import br.com.tagme.commons.utils.StringUtils;
 
@@ -194,9 +194,8 @@ public class ContaUsuarioServlet {
 		
 	}
 	
-	
-	@RequestMapping(value = "/criarPessoa", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.TEXT_HTML_VALUE, method = RequestMethod.POST)
-	public @ResponseBody void criarPessoa(HttpServletRequest request, HttpServletResponse response, @RequestParam("foto") MultipartFile file, @RequestParam Map<String, String> params) throws IOException {
+	@RequestMapping(value = "/criarPessoa", method = RequestMethod.POST)
+	public @ResponseBody void criarPessoa(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> params) throws IOException {
 		
 		StringBuffer responseString = new StringBuffer("<html><head></head><body>");
 		int status = STATUS_SUCCESS;
@@ -263,12 +262,6 @@ public class ContaUsuarioServlet {
 		pessoa.setEmail(email);
 		
 		if (status == STATUS_SUCCESS) {
-
-			if (!file.isEmpty()) {
-				byte[] bytes = file.getBytes();
-				pessoa.setFoto(bytes);
-				uploadFoto = true;
-			}
 			pessoaDao.insertPessoa(pessoa, uploadFoto);
 		}
 
